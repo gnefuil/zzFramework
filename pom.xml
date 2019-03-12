@@ -10,8 +10,7 @@
     <version>0.1</version>
     <modules>
         <module>zz-web</module>
-        <module>zz-ioc</module>
-        <module>zz-aop</module>
+        <module>zz-base</module>
     </modules>
 
     <properties>
@@ -63,11 +62,6 @@
                 <version>19.0</version>
             </dependency>
 
-            <!--<dependency>-->
-                <!--<groupId>top.crossoverjie.opensource</groupId>-->
-                <!--<artifactId>zz-base</artifactId>-->
-                <!--<version>1.0.1</version>-->
-            <!--</dependency>-->
         </dependencies>
     </dependencyManagement>
 
