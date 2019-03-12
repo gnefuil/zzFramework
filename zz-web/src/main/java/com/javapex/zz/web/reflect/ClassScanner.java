@@ -32,7 +32,7 @@ public class ClassScanner {
     private static Map<Class<?>, Integer> interceptorMap = null;
 
     private static Set<Class<?>> classes = null;
-    private static Set<Class<?>> cicada_classes = null;
+    private static Set<Class<?>> zz_classes = null;
 
     private static List<Class<?>> configurationList = null;
 
@@ -92,8 +92,8 @@ public class ClassScanner {
                     continue;
                 }
 
-                ZzAction cicadaAction = (ZzAction) annotation;
-                actionMap.put(cicadaAction.value() == null ? cls.getName() : cicadaAction.value(), cls);
+                ZzAction zzAction = (ZzAction) annotation;
+                actionMap.put(zzAction.value() == null ? cls.getName() : zzAction.value(), cls);
 
             }
         }
@@ -235,7 +235,7 @@ public class ClassScanner {
     }
 
 
-    private static final String BASE_PACKAGE = "top.crossoverjie.cicada";
+    private static final String BASE_PACKAGE = "com.javapex.zz.web"; // todo 包名
 
     /**
      * get custom route bean
@@ -270,6 +270,8 @@ public class ClassScanner {
                 }
             }
         }
+        if (classList.size()==0)
+            return null;
 
         return classList.get(0);
     }
@@ -277,12 +279,12 @@ public class ClassScanner {
 
     public static Set<Class<?>> getCustomRouteBeanClasses(String packageName) throws Exception {
 
-        if (cicada_classes == null){
-            cicada_classes = new HashSet<>(32) ;
+        if (zz_classes == null){
+            zz_classes = new HashSet<>(32) ;
 
-            baseScanner(packageName,cicada_classes);
+            baseScanner(packageName,zz_classes);
         }
 
-        return cicada_classes;
+        return zz_classes;
     }
 }

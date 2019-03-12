@@ -4,7 +4,7 @@ import com.javapex.zz.web.bootstrap.NettyBootStrap;
 import com.javapex.zz.web.config.ZzSetting;
 
 public class ZzServer {
-    public void start(Class<?> clazz,String path) throws Exception {
+    public static void start(Class<?> clazz,String path) throws Exception {
         ZzSetting.setting(clazz,path) ;
         NettyBootStrap.startZz();
     }

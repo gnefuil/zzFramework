@@ -9,19 +9,19 @@ public class ZzBeanManager {
     
     private ZzBeanManager(){
     }
-    private static volatile ZzBeanManager cicadaBeanManager;
+    private static volatile ZzBeanManager zzBeanManager;
 
-    private static ZzBeanFactory cicadaBeanFactory ;
+    private static ZzBeanFactory zzBeanFactory ;
 
     public static ZzBeanManager getInstance() {
-        if (cicadaBeanManager == null) {
+        if (zzBeanManager == null) {
             synchronized (RouteProcess.class) {//todo synchronized
-                if (cicadaBeanManager == null) {
-                    cicadaBeanManager = new ZzBeanManager();
+                if (zzBeanManager == null) {
+                    zzBeanManager = new ZzBeanManager();
                 }
             }
         }
-        return cicadaBeanManager;
+        return zzBeanManager;
     }
 
     /**
@@ -30,14 +30,14 @@ public class ZzBeanManager {
      * @throws Exception
      */
     public void init(String packageName) throws Exception {
-        Map<String, Class<?>> cicadaAction = ClassScanner.getZzAction(packageName);
+        Map<String, Class<?>> zzAction = ClassScanner.getZzAction(packageName);
 
         Class<?> bean = ClassScanner.getCustomRouteBean();
-        cicadaBeanFactory = (ZzBeanFactory) bean.newInstance() ;
+        zzBeanFactory = (ZzBeanFactory) bean.newInstance() ;
 
-        for (Map.Entry<String, Class<?>> classEntry : cicadaAction.entrySet()) {
+        for (Map.Entry<String, Class<?>> classEntry : zzAction.entrySet()) {
             Object instance = classEntry.getValue().newInstance();
-            cicadaBeanFactory.register(instance) ;
+            zzBeanFactory.register(instance) ;
         }
 
     }
@@ -50,7 +50,7 @@ public class ZzBeanManager {
      * @throws Exception
      */
     public Object getBean(String name) throws Exception {
-        return cicadaBeanFactory.getBean(name) ;
+        return zzBeanFactory.getBean(name) ;
     }
 
 
@@ -58,6 +58,6 @@ public class ZzBeanManager {
      * release all beans
      */
     public void releaseBean(){
-        cicadaBeanFactory.releaseBean();
+        zzBeanFactory.releaseBean();
     }
 }

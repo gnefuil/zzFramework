@@ -30,7 +30,7 @@ public abstract class AbstractZzConfiguration {
 
     @Override
     public String toString() {
-        return "AbstractCicadaConfiguration{" +
+        return "AbstractZzConfiguration{" +
                 "propertiesName='" + propertiesName + '\'' +
                 ", properties=" + properties +
                 '}';

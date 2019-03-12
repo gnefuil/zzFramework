@@ -47,7 +47,7 @@
 
         <!--<dependency>-->
             <!--<groupId>top.crossoverjie.opensource</groupId>-->
-            <!--<artifactId>cicada-base</artifactId>-->
+            <!--<artifactId>zz-base</artifactId>-->
         <!--</dependency>-->
     </dependencies>
 </project>

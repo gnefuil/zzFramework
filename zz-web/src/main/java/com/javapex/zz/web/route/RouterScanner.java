@@ -94,8 +94,8 @@ public class RouterScanner {
                     continue;
                 }
 
-                ZzAction cicadaAction = aClass.getAnnotation(ZzAction.class);
-                routes.put(appConfig.getRootPath() + "/" + cicadaAction.value() + "/" + annotation.value(), method);
+                ZzAction zzAction = aClass.getAnnotation(ZzAction.class);
+                routes.put(appConfig.getRootPath() + "/" + zzAction.value() + "/" + annotation.value(), method);
             }
         }
     }

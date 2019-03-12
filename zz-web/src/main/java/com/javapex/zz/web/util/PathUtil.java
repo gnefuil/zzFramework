@@ -7,7 +7,7 @@ public class PathUtil {
      * Get Root Path
      * /zz-example/demoAction
      * @param path
-     * @return cicada-example
+     * @return zz-example
      */
     public static String getRootPath(String path) {
         return "/" + path.split("/")[1];

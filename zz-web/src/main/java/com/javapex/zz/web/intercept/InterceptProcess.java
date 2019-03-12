@@ -43,8 +43,8 @@ public class InterceptProcess {
             return;
         }else {
             interceptors = new ArrayList<>(10) ;
-            Map<Class<?>, Integer> cicadaInterceptor = ClassScanner.getZzInterceptor(appConfig.getRootPackageName());
-            for (Map.Entry<Class<?>, Integer> classEntry : cicadaInterceptor.entrySet()) {
+            Map<Class<?>, Integer> zzInterceptor = ClassScanner.getZzInterceptor(appConfig.getRootPackageName());
+            for (Map.Entry<Class<?>, Integer> classEntry : zzInterceptor.entrySet()) {
                 Class<?> interceptorClass = classEntry.getKey();
                 ZzInterceptor interceptor = (ZzInterceptor) interceptorClass.newInstance();
                 interceptor.setOrder(classEntry.getValue());

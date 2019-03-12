@@ -16,7 +16,7 @@ public class RouteProcess {
 
     private volatile static RouteProcess routeProcess; //todo volatile
 
-    private final ZzBeanManager cicadaBeanManager = ZzBeanManager.getInstance() ;
+    private final ZzBeanManager zzBeanManager = ZzBeanManager.getInstance() ;
 
     public static RouteProcess getInstance() {
         if (routeProcess == null) {
@@ -41,7 +41,7 @@ public class RouteProcess {
         }
 
         Object[] object = parseRouteParameter(method, queryStringDecoder);
-        Object bean = cicadaBeanManager.getBean(method.getDeclaringClass().getName());
+        Object bean = zzBeanManager.getBean(method.getDeclaringClass().getName());
         if (object == null){
             method.invoke(bean) ;
         }else {
@@ -73,7 +73,7 @@ public class RouteProcess {
         Object[] instances = new Object[parameterTypes.length] ;
 
         for (int i = 0; i < instances.length; i++) {
-            //inject cicada context instance
+            //inject zz context instance
             if (parameterTypes[i] == ZzContext.class){
                 instances[i] = ZzContext.getContext() ;
             }else {
