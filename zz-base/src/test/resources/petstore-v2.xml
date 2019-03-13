@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="petStore"
+          class="com.javapex.service.v2.PetStoreService" >
+
+        <property name="accountDao" ref="accountDao"/>
+        <property name="itemDao" ref="itemDao"/>
+        <!--简单属性注入-->
+        <property name="owner" value="lf"/>
+
+        <property name="version" value="2"/>
+    </bean>
+
+    <bean id="accountDao"  class="com.javapex.dao.v2.AccountDao">
+    </bean>
+
+    <bean id="itemDao" class="com.javapex.dao.v2.ItemDao">
+    </bean>
+</beans>
