@@ -1,13 +1,13 @@
 package com.javapex.beans.factory.support;
 
 import com.javapex.beans.BeanDefinition;
+import com.javapex.beans.BeansException;
 import com.javapex.beans.PropertyValue;
 import com.javapex.beans.SimpleTypeConverter;
 import com.javapex.beans.factory.BeanCreationException;
-import com.javapex.beans.factory.config.BeanPostProcessor;
-import com.javapex.beans.factory.config.ConfigurableBeanFactory;
-import com.javapex.beans.factory.config.DependencyDescriptor;
-import com.javapex.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import com.javapex.beans.factory.BeanFactoryAware;
+import com.javapex.beans.factory.NoSuchBeanDefinitionException;
+import com.javapex.beans.factory.config.*;
 import com.javapex.util.ClassUtils;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
-        implements BeanDefinitionRegistry,ConfigurableBeanFactory {
+public class DefaultBeanFactory extends AbstractBeanFactory
+        implements BeanDefinitionRegistry {
 
     private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
@@ -52,12 +52,12 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         return createBean(beanDefinition);
 
     }
-    private Object createBean(BeanDefinition beanDefinition) {
+    protected Object createBean(BeanDefinition beanDefinition) {
         //创建实例
         Object bean = instantiateBean(beanDefinition);
         //设置属性
         populateBean(beanDefinition, bean);
-
+        bean = initializeBean(beanDefinition,bean);
         return bean;
 
     }
@@ -156,5 +156,61 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
+    }
+
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        BeanDefinition bd = this.getBeanDefinition(name);
+        if(bd == null){
+            throw new NoSuchBeanDefinitionException(name);
+        }
+        resolveBeanClass(bd);
+        return bd.getBeanClass();
+    }
+
+    public List<Object> getBeansByType(Class<?> type){
+        List<Object> result = new ArrayList<Object>();
+        List<String> beanIDs = this.getBeanIDsByType(type);
+        for(String beanID : beanIDs){
+            result.add(this.getBean(beanID));
+        }
+        return result;
+    }
+
+    private List<String> getBeanIDsByType(Class<?> type){
+        List<String> result = new ArrayList<String>();
+        for(String beanName :this.beanDefinitionMap.keySet()){
+            if(type.isAssignableFrom(this.getType(beanName))){
+                result.add(beanName);
+            }
+        }
+        return result;
+    }
+
+    protected Object initializeBean(BeanDefinition bd, Object bean)  {
+        invokeAwareMethods(bean);
+        //Todo，对Bean做初始化
+        //创建代理
+
+        //Todo，调用Bean的init方法，暂不实现
+        if(!bd.isSynthetic()){
+            return applyBeanPostProcessorsAfterInitialization(bean,bd.getID());
+        }
+        return bean;
+    }
+    private void invokeAwareMethods(final Object bean) {
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware) bean).setBeanFactory(this);
+        }
+    }
+    public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName)
+            throws BeansException {
+        Object result = existingBean;
+        for (BeanPostProcessor beanProcessor : getBeanPostProcessors()) {
+            result = beanProcessor.afterInitialization(result, beanName);
+            if (result == null) {
+                return result;
+            }
+        }
+        return result;
     }
 }

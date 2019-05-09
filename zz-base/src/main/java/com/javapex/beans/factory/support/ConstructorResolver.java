@@ -3,7 +3,6 @@ package com.javapex.beans.factory.support;
 import com.javapex.beans.BeanDefinition;
 import com.javapex.beans.SimpleTypeConverter;
 import com.javapex.beans.factory.BeanCreationException;
-import com.javapex.beans.factory.config.ConfigurableBeanFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -14,11 +13,11 @@ public class ConstructorResolver {
     protected final Log logger = LogFactory.getLog(getClass());
 
 
-    private final ConfigurableBeanFactory beanFactory;
+    private final AbstractBeanFactory beanFactory;
 
 
 
-    public ConstructorResolver(ConfigurableBeanFactory beanFactory) {
+    public ConstructorResolver(AbstractBeanFactory  beanFactory) {
         this.beanFactory = beanFactory;
     }
 

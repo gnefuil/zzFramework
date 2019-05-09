@@ -1,5 +1,6 @@
 package com.javapex.beans.factory.xml;
 
+import com.javapex.aop.config.ConfigBeanDefinitionParser;
 import com.javapex.beans.BeanDefinition;
 import com.javapex.beans.PropertyValue;
 import com.javapex.beans.factory.BeanDefinitionStoreException;
@@ -36,7 +37,7 @@ public class XmlBeanDefinitionReader {
     public static final String NAME_ATTRIBUTE = "name";
     public static final String CONSTRUCTOR_ARG_ELEMENT = "constructor-arg";
     public static final String TYPE_ATTRIBUTE = "type";
-
+    public static final String AOP_NAMESPACE_URI = "http://www.springframework.org/schema/aop";
     public static final String BEANS_NAMESPACE_URI = "http://www.springframework.org/schema/beans";
     public static final String CONTEXT_NAMESPACE_URI = "http://www.springframework.org/schema/context";
     private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
@@ -66,6 +67,8 @@ public class XmlBeanDefinitionReader {
                     parseDefaultElement(ele); //普通的bean
                 } else if(this.isContextNamespace(namespaceUri)){
                     parseComponentElement(ele); //例如<context:component-scan>
+                }else if(this.isAOPNamespace(namespaceUri)){
+                    parseAOPElement(ele);  //例如 <aop:config>
                 }
             }
         } catch (Exception e) {
@@ -173,5 +176,14 @@ public class XmlBeanDefinitionReader {
 
             throw new RuntimeException(elementName + " must specify a ref or value");
         }
+    }
+
+    public boolean isAOPNamespace(String namespaceUri){
+        return (!StringUtils.hasLength(namespaceUri) || AOP_NAMESPACE_URI.equals(namespaceUri));
+    }
+
+    private void parseAOPElement(Element ele){
+        ConfigBeanDefinitionParser parser = new ConfigBeanDefinitionParser();
+        parser.parse(ele, this.registry);
     }
 }

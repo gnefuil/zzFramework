@@ -25,4 +25,6 @@ public interface BeanDefinition {
     Class<?> resolveBeanClass(ClassLoader classLoader) throws ClassNotFoundException;
     Class<?> getBeanClass() throws IllegalStateException ;
     boolean hasBeanClass();
+
+    boolean isSynthetic();
 }

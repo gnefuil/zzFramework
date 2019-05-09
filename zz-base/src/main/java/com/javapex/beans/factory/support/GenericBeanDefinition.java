@@ -18,6 +18,8 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
     private ConstructorArgument constructorArgument = new ConstructorArgument();
+    //表明这个Bean定义 是不是我们框架自己合成的。
+    private boolean isSynthetic = false;
 
     public GenericBeanDefinition(String id, String beanClassName) {
         this.id = id;
@@ -25,7 +27,10 @@ public class GenericBeanDefinition implements BeanDefinition {
     }
     public GenericBeanDefinition() {
     }
-
+    public GenericBeanDefinition(Class<?> clz) {
+        this.beanClass = clz;
+        this.beanClassName = clz.getName();
+    }
     public String getBeansClassName() {
         return this.beanClassName;
     }
@@ -84,5 +89,11 @@ public class GenericBeanDefinition implements BeanDefinition {
     }
     public boolean hasConstructorArgumentValues() {
         return !this.constructorArgument.isEmpty();
+    }
+    public boolean isSynthetic() {
+        return isSynthetic;
+    }
+    public void setSynthetic(boolean isSynthetic) {
+        this.isSynthetic = isSynthetic;
     }
 }
